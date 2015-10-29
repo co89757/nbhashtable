@@ -1,2 +1,4 @@
 ##object files
 *.o
+## IDEA project file
+.idea/
