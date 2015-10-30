@@ -56,13 +56,13 @@ static inline uint32_t murmur32_8b (uint64_t key)
 }
 
 static inline
-Key_t* key(Hashtable_t* ht, size_t idx)
+Key_t*getKey(Hashtable_t *ht, size_t idx)
 {
     assert(ht!=NULL && idx < ht->maxsize );
     return &ht->entries[idx].key;
 }
 static inline
-Val_t* val(Hashtable_t* ht, size_t idx)
+Val_t*getVal(Hashtable_t *ht, size_t idx)
 {
     assert(ht!=NULL && idx < ht->maxsize );
     return &ht->entries[idx].val;
@@ -74,11 +74,11 @@ void incSlots(Hashtable_t* ht)
     ATOMIC_INC(&ht->_slots);
 }
 
-static inline
+/*static inline
 void incLiveKeys(Hashtable_t* ht)
 {
    ATOMIC_DEC(&ht->_livekeys);
-}
+}*/
 
 static inline
 size_t getSlots(Hashtable_t* ht)
@@ -90,6 +90,13 @@ size_t getSlots(Hashtable_t* ht)
 static inline
 int isKeyEqual(Key_t k, Key_t key){
     return k == key ? TRUE:FALSE;
+}
+
+
+static inline
+int reprobe_limit(size_t len)
+{
+    return REPROBE_LIMIT + len >> 4 ;
 }
 
 
@@ -111,8 +118,8 @@ Val_t ht_putIfMatch(Hashtable_t* ht, Key_t key, Val_t putVal, Val_t expVal, int 
 
     //start loop to claim key slot
     while (TRUE) {
-          pK = key(ht, idx);
-          pV = val(ht,idx);
+          pK = getKey(ht, idx);
+          pV = getVal(ht,idx);
 
         //if slot is free?
         if(*pK == NIL)
@@ -130,8 +137,8 @@ Val_t ht_putIfMatch(Hashtable_t* ht, Key_t key, Val_t putVal, Val_t expVal, int 
                 break;
             }
 
-            //CAS failed, repeat
-            pK = key(ht,idx);
+            //CAS failed, get updated key
+            pK = getKey(ht,idx);
             assert(pK);
         }
 
@@ -143,7 +150,7 @@ Val_t ht_putIfMatch(Hashtable_t* ht, Key_t key, Val_t putVal, Val_t expVal, int 
         if(++reprobes_cnt >= REPROBE_LIMIT || getSlots(ht) > (size_t)(0.8 * ht->maxsize )  )
         {
             *error = ERROR_FULLTABLE;
-            ERR(errFullTable,"reprobe limit is reached");
+            ERR("reprobe limit is reached when putting (K,V)=(%u,%u)", key,putVal );
             return NIL;
         }
         //reprobe
@@ -155,7 +162,7 @@ Val_t ht_putIfMatch(Hashtable_t* ht, Key_t key, Val_t putVal, Val_t expVal, int 
     if(putVal == *pV) return putVal; //fast cut-out for no change
 
     while (TRUE){
-        if( expVal != CAS_EXPECT_WHATEVER  &&
+        if( expVal != CAS_EXPECT_WHATEVER  && //do we care about expected value at all?
                 *pV != expVal &&
                 (expVal != CAS_EXPECT_EXIST || *pV==TOMBSTONE || *pV == NIL) &&
                 !(*pV == NIL && expVal == TOMBSTONE)
@@ -167,12 +174,12 @@ Val_t ht_putIfMatch(Hashtable_t* ht, Key_t key, Val_t putVal, Val_t expVal, int 
 
 
         //update the value now
-        if(ATOMIC_CAS( val(ht), pV, putVal, FALSE  )){
+        if(ATOMIC_CAS( getVal(ht,idx), pV, putVal, FALSE  )){
 
             return *pV;
         }
         //else, CAS failed, get the new value
-        pV = val(ht, idx);
+        pV = getVal(ht, idx);
 
     }
 
@@ -180,6 +187,44 @@ Val_t ht_putIfMatch(Hashtable_t* ht, Key_t key, Val_t putVal, Val_t expVal, int 
 
 }
 
+
+/**
+ * get implementation
+ */
+static
+Val_t ht_getImpl(Hashtable_t* ht, Key_t key, uint32_t fullhash, int* error)
+{
+    assert(ht);
+    *error = NO_ERROR;
+    size_t len = ht->maxsize;
+    size_t idx = fullhash & (len-1);
+    int reprobe_cnt = 0;
+    while (TRUE)
+    {
+        Key_t * pK = getKey(ht,idx);
+        Val_t * pV = getVal(ht,idx);
+        //key not exist, a miss
+        if(*pK == NIL){
+            *error = ERROR_NULLKEY;
+            return NIL;
+        }
+        //we have a key match
+        if(isKeyEqual(*pK, key)){
+            return (*pV == TOMBSTONE)? NIL: (*pV);
+        }
+        //else, test reprobe_limit condition and reprobe
+        if(++reprobe_cnt > reprobe_limit(len) ){
+            *error = ERROR_FULLTABLE;
+            return NIL;
+        }
+
+        //reprobe
+        idx = (idx+1) & (len-1);
+
+
+    }
+
+}
 
 
 
@@ -193,19 +238,19 @@ Hashtable_t* ht_newHashTable(size_t size_log)
 
     Hashtable_t* poHt = (Hashtable_t*) calloc(1, sizeof(Hashtable_t) );
     if(poHt == NULL){
-        ERR(errAllocFail,"Allocation failure in %s:%d", __FILE__,__LINE__ );
+        ERR("Allocation failure" );
         return NULL;
     }
 
     size_t nSize = 1 << size_log ;
-    poHt->_livekeys = 0;
+    //poHt->_livekeys = 0;
     poHt->_slots = 0;
     poHt->maxsize = nSize;
     poHt->entries = (Entry_t*) calloc(nSize, sizeof(Entry_t)  );
     poHt->hashes = (uint32_t *) calloc(nSize, sizeof(uint32_t) );
 
     if(!poHt->entries || !poHt->hashes){
-        ERR(errAllocFail,"Alocation failure in %s:%d",__FILE__,__LINE__);
+        ERR( "Alocation failure");
         return NULL;
     }
 
@@ -214,4 +259,53 @@ Hashtable_t* ht_newHashTable(size_t size_log)
     poHt->remove = ht_remove;
 
 
+}
+
+void ht_freeHashTable(Hashtable_t* ht)
+{
+    FREE(ht->entries);
+    FREE(ht->hashes);
+    FREE(ht);
+}
+
+
+// --- get -----------------------------------------------------------------
+/** Returns the value to which the specified key is mapped, or {@code null}
+ *  if this map contains no mapping for the key.
+ *  <p>More formally, if this map contains a mapping from a key {@code k} to
+ *  a value {@code v} such that {@code key.equals(k)}, then this method
+ *  returns {@code v}; otherwise it returns {@code null}.  (There can be at
+ *  most one such mapping.)
+ * @throws NullPointerException if the specified key is null */
+
+Val_t ht_get(Hashtable_t* self, Key_t key, int * error)
+{
+
+    uint32_t fullhash = murmur32_8b(key);
+    Val_t V = ht_getImpl(self,key,fullhash,error);
+    return V;
+}
+
+
+Val_t ht_put(Hashtable_t* self, Key_t key, Val_t value, int* error)
+{
+    return ht_putIfMatch(self,key,value,CAS_EXPECT_WHATEVER, error);
+}
+
+
+Val_t ht_remove(Hashtable_t* self, Key_t key, int* error)
+{
+    return ht_putIfMatch(self,key,TOMBSTONE,CAS_EXPECT_WHATEVER,error);
+}
+
+
+void ht_print(Hashtable_t* self)
+{
+    //TODO
+}
+
+int ht_isEmpty(Hashtable_t* self)
+{
+    size_t slots = getSlots(self);
+    return slots != 0 ? FALSE:TRUE;
 }

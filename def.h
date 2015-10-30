@@ -20,12 +20,13 @@
 #define ERROR_INVALID_ARGUMENT (-2)
 #define ERROR_NOT_ENOUGH_MEMORY (-3)
 #define ERROR_PUTFAIL (-4)
+#define ERROR_NULLKEY (-5)
+
+#define ERR(fmt, ...)   fprintf(stderr, "[ERROR]:%s:%d " "[MESSAGE]: " fmt "\n", __FILE__,__LINE__, \
+                                  ##__VA_ARGS__)
 
 
-#define ERR(name, fmt, ...)   fprintf(stderr, "ERROR " #name ": " fmt "\n", \
-                                  __VAR_ARGS__)
-
-
+#define FREE(p) do{free((p)); p = NULL;  }while(0)
 
 
 #endif

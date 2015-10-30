@@ -33,7 +33,7 @@ typedef uint32_t (*hashCode_t)(uint64_t key);
 
 struct Hashtable{
 	Entry_t * entries;
-	int _livekeys;
+	//int _livekeys;
 	size_t _slots;
 	size_t maxsize;
 
