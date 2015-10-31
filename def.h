@@ -22,9 +22,15 @@
 #define ERROR_PUTFAIL (-4)
 #define ERROR_NULLKEY (-5)
 
-#define ERR(fmt, ...)   fprintf(stderr, "[ERROR]:%s:%d " "[MESSAGE]: " fmt "\n", __FILE__,__LINE__, \
-                                  ##__VA_ARGS__)
 
+
+#ifdef DEBUG
+
+	#define ERR(fmt, ...)   fprintf(stderr, "[ERROR]:%s:%d " "[MESSAGE]: " fmt "\n", __FILE__,__LINE__, \
+	##__VA_ARGS__)
+#else
+	#define ERR(fmt,...) 
+#endif
 
 #define FREE(p) do{free((p)); p = NULL;  }while(0)
 

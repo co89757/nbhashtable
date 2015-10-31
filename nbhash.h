@@ -60,7 +60,7 @@ Val_t ht_get(Hashtable_t* self, Key_t key, int * error);
 Val_t ht_put(Hashtable_t* self, Key_t key, Val_t value, int* error);
 Val_t ht_remove(Hashtable_t* self, Key_t key, int* error);
 void ht_print(Hashtable_t* self);
-
+int ht_claimedSlots(Hashtable_t* ht);
 int ht_isEmpty(Hashtable_t* self);
 
 

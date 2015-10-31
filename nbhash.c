@@ -96,7 +96,7 @@ int isKeyEqual(Key_t k, Key_t key){
 static inline
 int reprobe_limit(size_t len)
 {
-    return REPROBE_LIMIT + len >> 4 ;
+    return REPROBE_LIMIT + (len >> 2 );
 }
 
 
@@ -147,7 +147,7 @@ Val_t ht_putIfMatch(Hashtable_t* ht, Key_t key, Val_t putVal, Val_t expVal, int 
         if(isKeyEqual(*pK, key))
             break; //got the key!
         //else key not equal, we must reprobe and check reprobe limit
-        if(++reprobes_cnt >= REPROBE_LIMIT || getSlots(ht) > (size_t)(0.8 * ht->maxsize )  )
+        if(++reprobes_cnt >= reprobe_limit(len) || getSlots(ht) > (size_t)(0.8 * ht->maxsize )  )
         {
             *error = ERROR_FULLTABLE;
             ERR("reprobe limit is reached when putting (K,V)=(%u,%u)", key,putVal );
@@ -169,6 +169,7 @@ Val_t ht_putIfMatch(Hashtable_t* ht, Key_t key, Val_t putVal, Val_t expVal, int 
                 )
         {
             *error = ERROR_PUTFAIL;
+            ERR("put value failed. expVal=%d , V=%d" , expVal,*pV);
             return *pV;   //do not update.
         }
 
@@ -206,6 +207,7 @@ Val_t ht_getImpl(Hashtable_t* ht, Key_t key, uint32_t fullhash, int* error)
         //key not exist, a miss
         if(*pK == NIL){
             *error = ERROR_NULLKEY;
+            ERR("Error in get_impl(), K is NULL");
             return NIL;
         }
         //we have a key match
@@ -215,6 +217,7 @@ Val_t ht_getImpl(Hashtable_t* ht, Key_t key, uint32_t fullhash, int* error)
         //else, test reprobe_limit condition and reprobe
         if(++reprobe_cnt > reprobe_limit(len) ){
             *error = ERROR_FULLTABLE;
+            ERR("reprobe limit is reached when doing lookup");
             return NIL;
         }
 
@@ -258,6 +261,7 @@ Hashtable_t* ht_newHashTable(size_t size_log)
     poHt->put = ht_put;
     poHt->remove = ht_remove;
 
+    return poHt;
 
 }
 
@@ -301,11 +305,40 @@ Val_t ht_remove(Hashtable_t* self, Key_t key, int* error)
 
 void ht_print(Hashtable_t* self)
 {
-    //TODO
+    if(!self){
+        ERR("null table pointer");
+        return;
+    }
+
+    Entry_t * ents = self->entries;
+    if(!ents) return;
+    int len = self->maxsize;
+    int i;
+    printf("..........Printout K-V pairs............");
+    for(i=0;i<len;i++){
+    if(i%20==0)
+        printf("... \n");
+    if(ents[i].key!=NIL)
+        printf( "{%u:%u}\n ",ents[i].key,ents[i].val);
+    }
+
 }
 
 int ht_isEmpty(Hashtable_t* self)
 {
     size_t slots = getSlots(self);
     return slots != 0 ? FALSE:TRUE;
+}
+
+int ht_claimedSlots(Hashtable_t* ht)
+{
+    return ATOMIC_READ(&ht->_slots);
+}
+
+int ht_hasKey(Hashtable_t* ht, Key_t key)
+{
+    int e = 1;
+    int* err = &e;
+    Val_t v = ht_get(ht,key,err);
+    return (*err == NO_ERROR && v != NIL )?TRUE:FALSE;
 }

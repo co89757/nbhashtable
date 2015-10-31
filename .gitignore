@@ -2,3 +2,5 @@
 *.o
 ## IDEA project file
 .idea/
+## log files
+*.log
