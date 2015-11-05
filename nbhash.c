@@ -55,19 +55,29 @@ static inline uint32_t murmur32_8b (uint64_t key)
     return h;
 }
 
+
+/**
+ * get pointer to the key at entry indexed at idx
+ */
 static inline
-Key_t*getKey(Hashtable_t *ht, size_t idx)
+volatile Key_t*getKey(Hashtable_t *ht, size_t idx)
 {
     assert(ht!=NULL && idx < ht->maxsize );
     return &ht->entries[idx].key;
 }
+
+/**
+ * get pointer to value at entry [idx]
+ */
 static inline
-Val_t*getVal(Hashtable_t *ht, size_t idx)
+volatile Val_t*getVal(Hashtable_t *ht, size_t idx)
 {
     assert(ht!=NULL && idx < ht->maxsize );
     return &ht->entries[idx].val;
 }
-
+/**
+ * increment the used slots count
+ */
 static inline
 void incSlots(Hashtable_t* ht)
 {
@@ -92,7 +102,9 @@ int isKeyEqual(Key_t k, Key_t key){
     return k == key ? TRUE:FALSE;
 }
 
-
+/**
+ * heuristic for reprobe limit
+ */
 static inline
 int reprobe_limit(size_t len)
 {
@@ -108,13 +120,14 @@ Val_t ht_putIfMatch(Hashtable_t* ht, Key_t key, Val_t putVal, Val_t expVal, int 
 {
     assert(ht!=NULL);
     assert(key!=NIL);
+    assert(error);
     *error = NO_ERROR;
     uint32_t fullhash = murmur32_8b(key);
     size_t len = ht->maxsize;
     size_t idx = fullhash & (len-1);
     size_t reprobes_cnt = 0;
-    Key_t * pK = NULL;
-    Val_t * pV = NULL;
+    volatile  Key_t * pK = NULL;
+    volatile  Val_t * pV = NULL;
 
     //start loop to claim key slot
     while (TRUE) {
@@ -196,14 +209,15 @@ static
 Val_t ht_getImpl(Hashtable_t* ht, Key_t key, uint32_t fullhash, int* error)
 {
     assert(ht);
+    assert(error);
     *error = NO_ERROR;
     size_t len = ht->maxsize;
     size_t idx = fullhash & (len-1);
     int reprobe_cnt = 0;
     while (TRUE)
     {
-        Key_t * pK = getKey(ht,idx);
-        Val_t * pV = getVal(ht,idx);
+        volatile  Key_t * pK = getKey(ht,idx);
+        volatile  Val_t * pV = getVal(ht,idx);
         //key not exist, a miss
         if(*pK == NIL){
             *error = ERROR_NULLKEY;
@@ -257,9 +271,9 @@ Hashtable_t* ht_newHashTable(size_t size_log)
         return NULL;
     }
 
-    poHt->get = ht_get;
-    poHt->put = ht_put;
-    poHt->remove = ht_remove;
+//    poHt->get = ht_get;
+//    poHt->put = ht_put;
+//    poHt->remove = ht_remove;
 
     return poHt;
 
@@ -317,9 +331,9 @@ void ht_print(Hashtable_t* self)
     printf("..........Printout K-V pairs............");
     for(i=0;i<len;i++){
     if(i%20==0)
-        printf("... \n");
+        printf("...\n");
     if(ents[i].key!=NIL)
-        printf( "{%u:%u}\n ",ents[i].key,ents[i].val);
+        printf( "{%u:%u}\n",ents[i].key,ents[i].val);
     }
 
 }

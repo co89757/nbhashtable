@@ -40,9 +40,9 @@ struct Hashtable{
 	uint32_t * hashes;
 
 	/** methods */
-	Val_t (*get)(struct Hashtable* ht, Key_t key, int * error);
+	/*Val_t (*get)(struct Hashtable* ht, Key_t key, int * error);
 	Val_t (*put)(struct Hashtable* ht, Key_t key, Val_t value, int *error);
-	Val_t (*remove)( struct Hashtable* ht , Key_t key, int* error);
+	Val_t (*remove)( struct Hashtable* ht , Key_t key, int* error);*/
 
 
 };
