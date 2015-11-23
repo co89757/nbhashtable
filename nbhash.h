@@ -3,7 +3,8 @@
 
 #include <stdint.h>
 #include "def.h"
-
+#include "datatype.h"
+/** can use uintptr_t */
 typedef uint64_t Key_t ;
 typedef uintptr_t Val_t ;
 
@@ -37,13 +38,11 @@ struct Hashtable{
 	size_t _slots;
 	size_t maxsize;
 
-	uint32_t * hashes;
+	uint32_t* hashes;
 
-	/** methods */
-	/*Val_t (*get)(struct Hashtable* ht, Key_t key, int * error);
-	Val_t (*put)(struct Hashtable* ht, Key_t key, Val_t value, int *error);
-	Val_t (*remove)( struct Hashtable* ht , Key_t key, int* error);*/
-
+	/** key type meta info */
+	Type_t* key_type;
+ 
 
 };
 
@@ -51,14 +50,24 @@ typedef struct Hashtable Hashtable_t ;
 
 #define REPROBE_LIMIT (10)
 
-
+/*-------------------------------------------*/
 /** Public methods function declarations */
-Hashtable_t* ht_newHashTable(size_t sizeLog);
-void ht_freeHashTable(Hashtable_t* ht);
 
+/**
+ * create a new hashtable and init to zeros 
+ * @param  sizeLog [log of the array size]
+ * @return         [pointer to the HT]
+ */
+Hashtable_t* ht_newHashTable(size_t sizeLog);
+/** free table */
+void ht_freeHashTable(Hashtable_t* ht);
+/** get value by key, return NIL if the key is not mapped or deleted */
 Val_t ht_get(Hashtable_t* self, Key_t key, int * error);
+/** put key-value pair ,return old value */
 Val_t ht_put(Hashtable_t* self, Key_t key, Val_t value, int* error);
+/** remove key-value pair, return old value */
 Val_t ht_remove(Hashtable_t* self, Key_t key, int* error);
+
 void ht_print(Hashtable_t* self);
 int ht_claimedSlots(Hashtable_t* ht);
 int ht_isEmpty(Hashtable_t* self);

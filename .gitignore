@@ -4,3 +4,5 @@
 .idea/
 ## log files
 *.log
+## target files
+target

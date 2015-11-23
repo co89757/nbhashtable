@@ -60,21 +60,35 @@ static inline uint32_t murmur32_8b (uint64_t key)
  * get pointer to the key at entry indexed at idx
  */
 static inline
-volatile Key_t*getKey(Hashtable_t *ht, size_t idx)
+volatile Key_t*  getKeyPtr(Hashtable_t *ht, size_t idx)
 {
     assert(ht!=NULL && idx < ht->maxsize );
     return &ht->entries[idx].key;
+}
+static inline
+Key_t getKeyContent(Hashtable_t* ht,size_t idx)
+{
+    Key_t k = ATOMIC_READ(&ht->entries[idx].key);
+    return k;
 }
 
 /**
  * get pointer to value at entry [idx]
  */
 static inline
-volatile Val_t*getVal(Hashtable_t *ht, size_t idx)
+volatile Val_t*  getValPtr(Hashtable_t *ht, size_t idx)
 {
     assert(ht!=NULL && idx < ht->maxsize );
     return &ht->entries[idx].val;
 }
+
+static inline 
+Val_t getValContent(Hashtable_t* ht, size_t idx)
+{
+    Val_t v = ATOMIC_READ(&ht->entries[idx].val);
+    return v;
+}
+
 /**
  * increment the used slots count
  */
@@ -126,14 +140,13 @@ Val_t ht_putIfMatch(Hashtable_t* ht, Key_t key, Val_t putVal, Val_t expVal, int 
     size_t len = ht->maxsize;
     size_t idx = fullhash & (len-1);
     size_t reprobes_cnt = 0;
+
     volatile  Key_t * pK = NULL;
     volatile  Val_t * pV = NULL;
-
+    pK = getKeyPtr(ht, idx);
+    pV = getValPtr(ht,idx);
     //start loop to claim key slot
     while (TRUE) {
-          pK = getKey(ht, idx);
-          pV = getVal(ht,idx);
-
         //if slot is free?
         if(*pK == NIL)
         {
@@ -146,19 +159,19 @@ Val_t ht_putIfMatch(Hashtable_t* ht, Key_t key, Val_t putVal, Val_t expVal, int 
             {
                 //occupied a new key, increment slots
                 incSlots(ht);
+                LOG("claimed key-slot:%u",key);
                 ht->hashes[idx] = fullhash; //cache fullhash
                 break;
             }
 
-            //CAS failed, get updated key
-            pK = getKey(ht,idx);
-            assert(pK);
         }
 
         //if key already exists
         //compare key
+       
         if(isKeyEqual(*pK, key))
             break; //got the key!
+
         //else key not equal, we must reprobe and check reprobe limit
         if(++reprobes_cnt >= reprobe_limit(len) || getSlots(ht) > (size_t)(0.8 * ht->maxsize )  )
         {
@@ -172,34 +185,33 @@ Val_t ht_putIfMatch(Hashtable_t* ht, Key_t key, Val_t putVal, Val_t expVal, int 
     }
 
     //we got the key! update the value now
-    if(putVal == *pV) return putVal; //fast cut-out for no change
-
+    if(putVal == *pV)  
+        return putVal; //fast cut-out for no change
+ 
+    
+    Val_t V = getValContent(ht,idx); // variable to store the current value
     while (TRUE){
+        
         if( expVal != CAS_EXPECT_WHATEVER  && //do we care about expected value at all?
-                *pV != expVal &&
-                (expVal != CAS_EXPECT_EXIST || *pV==TOMBSTONE || *pV == NIL) &&
-                !(*pV == NIL && expVal == TOMBSTONE)
+                V != expVal &&
+                (expVal != CAS_EXPECT_EXIST || V==TOMBSTONE || V == NIL) &&
+                !(V == NIL && expVal == TOMBSTONE)
                 )
         {
             *error = ERROR_PUTFAIL;
             ERR("put value failed. expVal=%d , V=%d" , expVal,*pV);
-            return *pV;   //do not update.
+            return V;   //do not update.
         }
 
 
-        //update the value now
-        if(ATOMIC_CAS( getVal(ht,idx), pV, putVal, FALSE  )){
-
-            return *pV;
+        /** CAS-val, on CAS failure, V will be automatically updated to current value */
+        if(ATOMIC_CAS( pV , &V, putVal, FALSE  )){  
+            return V;
         }
-        //else, CAS failed, get the new value
-        pV = getVal(ht, idx);
 
     }
 
-
-
-}
+} //END OF PUT_IF_MATCH
 
 
 /**
@@ -216,8 +228,8 @@ Val_t ht_getImpl(Hashtable_t* ht, Key_t key, uint32_t fullhash, int* error)
     int reprobe_cnt = 0;
     while (TRUE)
     {
-        volatile  Key_t * pK = getKey(ht,idx);
-        volatile  Val_t * pV = getVal(ht,idx);
+        volatile  Key_t * pK = getKeyPtr(ht,idx);
+        volatile  Val_t * pV = getValPtr(ht,idx);
         //key not exist, a miss
         if(*pK == NIL){
             *error = ERROR_NULLKEY;
@@ -245,9 +257,9 @@ Val_t ht_getImpl(Hashtable_t* ht, Key_t key, uint32_t fullhash, int* error)
 
 
 
-/***********************************************
-/****** Public API **************************/
-
+/**------------------------------------------**/
+/**----------- Public API ------------------****/
+/** ------------------------------------------- */
 Hashtable_t* ht_newHashTable(size_t size_log)
 {
 
@@ -265,15 +277,13 @@ Hashtable_t* ht_newHashTable(size_t size_log)
     poHt->maxsize = nSize;
     poHt->entries = (Entry_t*) calloc(nSize, sizeof(Entry_t)  );
     poHt->hashes = (uint32_t *) calloc(nSize, sizeof(uint32_t) );
-
+    /** key type by default is plain uint64_t */
+    poHt->key_type = NULL;
     if(!poHt->entries || !poHt->hashes){
         ERR( "Alocation failure");
         return NULL;
     }
-
-//    poHt->get = ht_get;
-//    poHt->put = ht_put;
-//    poHt->remove = ht_remove;
+ 
 
     return poHt;
 
@@ -328,12 +338,18 @@ void ht_print(Hashtable_t* self)
     if(!ents) return;
     int len = self->maxsize;
     int i;
-    printf("..........Printout K-V pairs............");
+    printf("..........Printout K-V pairs............\n");
+
+    int cnt = 0;
     for(i=0;i<len;i++){
-    if(i%20==0)
-        printf("...\n");
-    if(ents[i].key!=NIL)
-        printf( "{%u:%u}\n",ents[i].key,ents[i].val);
+    
+        if(ents[i].key!=NIL){
+            cnt ++ ;
+            printf( "{%u:%u}\n",ents[i].key,ents[i].val);
+            if(cnt % 20 == 0) 
+                printf(" .....\n");
+        }
+         
     }
 
 }
