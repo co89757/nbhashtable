@@ -1,0 +1,1 @@
+/usr/bin/cc  -g -Wall -fopenmp   CMakeFiles/test.dir/testHashMap.o CMakeFiles/test.dir/nbhash.o CMakeFiles/test.dir/collection.o CMakeFiles/test.dir/nstring.o  -o ../bin/test -rdynamic 
