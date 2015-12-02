@@ -1,0 +1,1 @@
+/usr/bin/cc  -g -Wall -fopenmp   CMakeFiles/testlockht.dir/testLockHt.c.o CMakeFiles/testlockht.dir/lockht.c.o CMakeFiles/testlockht.dir/nstring.c.o  -o ../bin/testlockht -rdynamic 

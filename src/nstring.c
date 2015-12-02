@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "nstring.h"
-
+#include "hashfunc.h"
 
 const Type_t TYPE_NSTRING = { 
 	(compare_fun_t) ns_compare, 

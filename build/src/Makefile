@@ -125,32 +125,47 @@ testclient/fast:
 	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/build
 .PHONY : testclient/fast
 
-collection.o: collection.c.o
+# Convenience name for target.
+src/CMakeFiles/testlockht.dir/rule:
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/testlockht.dir/rule
+.PHONY : src/CMakeFiles/testlockht.dir/rule
 
-.PHONY : collection.o
+# Convenience name for target.
+testlockht: src/CMakeFiles/testlockht.dir/rule
+
+.PHONY : testlockht
+
+# fast build rule for target.
+testlockht/fast:
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testlockht.dir/build.make src/CMakeFiles/testlockht.dir/build
+.PHONY : testlockht/fast
+
+lockht.o: lockht.c.o
+
+.PHONY : lockht.o
 
 # target to build an object file
-collection.c.o:
-	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/collection.c.o
-.PHONY : collection.c.o
+lockht.c.o:
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testlockht.dir/build.make src/CMakeFiles/testlockht.dir/lockht.c.o
+.PHONY : lockht.c.o
 
-collection.i: collection.c.i
+lockht.i: lockht.c.i
 
-.PHONY : collection.i
+.PHONY : lockht.i
 
 # target to preprocess a source file
-collection.c.i:
-	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/collection.c.i
-.PHONY : collection.c.i
+lockht.c.i:
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testlockht.dir/build.make src/CMakeFiles/testlockht.dir/lockht.c.i
+.PHONY : lockht.c.i
 
-collection.s: collection.c.s
+lockht.s: lockht.c.s
 
-.PHONY : collection.s
+.PHONY : lockht.s
 
 # target to generate assembly for a file
-collection.c.s:
-	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/collection.c.s
-.PHONY : collection.c.s
+lockht.c.s:
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testlockht.dir/build.make src/CMakeFiles/testlockht.dir/lockht.c.s
+.PHONY : lockht.c.s
 
 nbhash.o: nbhash.c.o
 
@@ -186,6 +201,7 @@ nstring.o: nstring.c.o
 # target to build an object file
 nstring.c.o:
 	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/nstring.c.o
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testlockht.dir/build.make src/CMakeFiles/testlockht.dir/nstring.c.o
 .PHONY : nstring.c.o
 
 nstring.i: nstring.c.i
@@ -195,6 +211,7 @@ nstring.i: nstring.c.i
 # target to preprocess a source file
 nstring.c.i:
 	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/nstring.c.i
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testlockht.dir/build.make src/CMakeFiles/testlockht.dir/nstring.c.i
 .PHONY : nstring.c.i
 
 nstring.s: nstring.c.s
@@ -204,6 +221,7 @@ nstring.s: nstring.c.s
 # target to generate assembly for a file
 nstring.c.s:
 	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/nstring.c.s
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testlockht.dir/build.make src/CMakeFiles/testlockht.dir/nstring.c.s
 .PHONY : nstring.c.s
 
 testHashMap.o: testHashMap.c.o
@@ -233,6 +251,33 @@ testHashMap.c.s:
 	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/testHashMap.c.s
 .PHONY : testHashMap.c.s
 
+testLockHt.o: testLockHt.c.o
+
+.PHONY : testLockHt.o
+
+# target to build an object file
+testLockHt.c.o:
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testlockht.dir/build.make src/CMakeFiles/testlockht.dir/testLockHt.c.o
+.PHONY : testLockHt.c.o
+
+testLockHt.i: testLockHt.c.i
+
+.PHONY : testLockHt.i
+
+# target to preprocess a source file
+testLockHt.c.i:
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testlockht.dir/build.make src/CMakeFiles/testlockht.dir/testLockHt.c.i
+.PHONY : testLockHt.c.i
+
+testLockHt.s: testLockHt.c.s
+
+.PHONY : testLockHt.s
+
+# target to generate assembly for a file
+testLockHt.c.s:
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testlockht.dir/build.make src/CMakeFiles/testlockht.dir/testLockHt.c.s
+.PHONY : testLockHt.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -241,10 +286,11 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... testlockht"
 	@echo "... testclient"
-	@echo "... collection.o"
-	@echo "... collection.i"
-	@echo "... collection.s"
+	@echo "... lockht.o"
+	@echo "... lockht.i"
+	@echo "... lockht.s"
 	@echo "... nbhash.o"
 	@echo "... nbhash.i"
 	@echo "... nbhash.s"
@@ -254,6 +300,9 @@ help:
 	@echo "... testHashMap.o"
 	@echo "... testHashMap.i"
 	@echo "... testHashMap.s"
+	@echo "... testLockHt.o"
+	@echo "... testLockHt.i"
+	@echo "... testLockHt.s"
 .PHONY : help
 
 

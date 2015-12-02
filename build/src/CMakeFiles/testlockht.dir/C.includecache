@@ -16,8 +16,12 @@ stdint.h
 stdint.h
 -
 
-../src/include/nbhash.h
+../src/include/lockht.h
+stdlib.h
+-
 stdint.h
+-
+omp.h
 -
 def.h
 ../src/include/def.h
@@ -30,19 +34,13 @@ stdint.h
 datatype.h
 ../src/include/datatype.h
 
-/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/nbhash.c
+/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/lockht.c
+omp.h
+-
 stdlib.h
 -
-stdio.h
--
-assert.h
--
-datatype.h
--
-def.h
-/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/def.h
-nbhash.h
-/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/nbhash.h
+lockht.h
+/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/lockht.h
 hashfunc.h
 /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/hashfunc.h
 
@@ -56,21 +54,11 @@ nstring.h
 hashfunc.h
 /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/hashfunc.h
 
-/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/testHashMap.c
-stdlib.h
--
-stdio.h
--
-stdint.h
--
+/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/testLockHt.c
 omp.h
 -
-datatype.h
-/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/datatype.h
-def.h
-/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/def.h
-nbhash.h
-/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/nbhash.h
+lockht.h
+/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/lockht.h
 nstring.h
 /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/nstring.h
 

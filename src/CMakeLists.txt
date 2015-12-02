@@ -1,7 +1,11 @@
 AUX_SOURCE_DIRECTORY(. ALL_SRC)
+
+SET(NBHT_SRC nbhash.c nstring.c testHashMap.c)
+SET(LOCKHT_SRC  testLockHt.c lockht.c nstring.c )
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
-ADD_EXECUTABLE(testclient ${ALL_SRC})
+ADD_EXECUTABLE(testclient ${NBHT_SRC})
+add_executable(testlockht ${LOCKHT_SRC})

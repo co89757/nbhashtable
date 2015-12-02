@@ -64,11 +64,13 @@ CMAKE_BINARY_DIR = /home/colin/Documents/Courses/multicore-522/Project/NBHashTab
 
 # Convenience name for "all" pass in the directory.
 src/all: src/CMakeFiles/testclient.dir/all
+src/all: src/CMakeFiles/testlockht.dir/all
 
 .PHONY : src/all
 
 # Convenience name for "clean" pass in the directory.
 src/clean: src/CMakeFiles/testclient.dir/clean
+src/clean: src/CMakeFiles/testlockht.dir/clean
 
 .PHONY : src/clean
 
@@ -84,7 +86,7 @@ src/preinstall:
 src/CMakeFiles/testclient.dir/all:
 	$(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/depend
 	$(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target testclient"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/CMakeFiles --progress-num=1,2,3,4 "Built target testclient"
 .PHONY : src/CMakeFiles/testclient.dir/all
 
 # Include target in all.
@@ -94,7 +96,7 @@ all: src/CMakeFiles/testclient.dir/all
 
 # Build rule for subdir invocation for target.
 src/CMakeFiles/testclient.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/CMakeFiles 4
 	$(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/testclient.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/CMakeFiles 0
 .PHONY : src/CMakeFiles/testclient.dir/rule
@@ -111,6 +113,43 @@ src/CMakeFiles/testclient.dir/clean:
 
 # clean rule for target.
 clean: src/CMakeFiles/testclient.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target src/CMakeFiles/testlockht.dir
+
+# All Build rule for target.
+src/CMakeFiles/testlockht.dir/all:
+	$(MAKE) -f src/CMakeFiles/testlockht.dir/build.make src/CMakeFiles/testlockht.dir/depend
+	$(MAKE) -f src/CMakeFiles/testlockht.dir/build.make src/CMakeFiles/testlockht.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/CMakeFiles --progress-num=5,6,7,8 "Built target testlockht"
+.PHONY : src/CMakeFiles/testlockht.dir/all
+
+# Include target in all.
+all: src/CMakeFiles/testlockht.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+src/CMakeFiles/testlockht.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/CMakeFiles 4
+	$(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/testlockht.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/CMakeFiles 0
+.PHONY : src/CMakeFiles/testlockht.dir/rule
+
+# Convenience name for target.
+testlockht: src/CMakeFiles/testlockht.dir/rule
+
+.PHONY : testlockht
+
+# clean rule for target.
+src/CMakeFiles/testlockht.dir/clean:
+	$(MAKE) -f src/CMakeFiles/testlockht.dir/build.make src/CMakeFiles/testlockht.dir/clean
+.PHONY : src/CMakeFiles/testlockht.dir/clean
+
+# clean rule for target.
+clean: src/CMakeFiles/testlockht.dir/clean
 
 .PHONY : clean
 

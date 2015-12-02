@@ -4,6 +4,7 @@
 #include <datatype.h>
 #include "def.h"
 #include "nbhash.h"
+#include "hashfunc.h"
 
 #define MIN_SIZE_LOG (3)
 #define TOMBSTONE (0)
@@ -14,46 +15,12 @@
 /********* Private Methods ****************************/
 /******************************************************/
 
-/**
- * Murmur hash function
- */
-static inline uint32_t murmur32_8b (uint64_t key)
+static inline
+uint32_t _getHash(Type_t* type, Key_t key)
 {
-    // 'm' and 'r' are mixing constants generated offline.
-    // They're not really 'magic', they just happen to work well.
-
-    const uint32_t m = 0x5bd1e995;
-    const int r = 24;
-
-    // Initialize the hash to a 'random' value
-    uint32_t h = 8;
-
-    uint32_t k1 = (uint32_t)(key >> 32);
-    uint32_t k2 = (uint32_t)key;
-
-    k1 *= m;
-    k1 ^= k1 >> r;
-    k1 *= m;
-
-    k2 *= m;
-    k2 ^= k2 >> r;
-    k2 *= m;
-
-    // Mix 4 bytes at a time into the hash
-
-    h *= m;
-    h ^= k1;
-    h *= m;
-    h ^= k2;
-
-    // Do a few final mixes of the hash to ensure the last few
-    // bytes are well-incorporated.
-
-    h ^= h >> 13;
-    h *= m;
-    h ^= h >> 15;
-
-    return h;
+    if(!type)
+        return murmur32_8b(key);
+    return type->hash(GET_PTR(key));
 }
 
 
@@ -144,7 +111,7 @@ Val_t ht_putIfMatch(Hashtable_t* ht, Key_t key, Val_t putVal, Val_t expVal, int 
     assert(key!=NIL);
     assert(error);
     *error = NO_ERROR;
-    uint32_t fullhash = murmur32_8b(key);
+    uint32_t fullhash = _getHash(ht->key_type,key);
     size_t len = ht->maxsize;
     size_t idx = fullhash & (len-1);
     size_t reprobes_cnt = 0;
@@ -317,7 +284,8 @@ void ht_freeHashTable(Hashtable_t* ht)
 Val_t ht_get(Hashtable_t* self, Key_t key, int * error)
 {
 
-    uint32_t fullhash = murmur32_8b(key);
+    uint32_t fullhash = _getHash(self->key_type,key);
+
     Val_t V = ht_getImpl(self,key,fullhash,error);
     return V;
 }

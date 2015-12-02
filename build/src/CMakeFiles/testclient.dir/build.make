@@ -57,33 +57,9 @@ include src/CMakeFiles/testclient.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/CMakeFiles/testclient.dir/flags.make
 
-src/CMakeFiles/testclient.dir/testHashMap.c.o: src/CMakeFiles/testclient.dir/flags.make
-src/CMakeFiles/testclient.dir/testHashMap.c.o: ../src/testHashMap.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object src/CMakeFiles/testclient.dir/testHashMap.c.o"
-	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/src && /usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/testclient.dir/testHashMap.c.o   -c /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/testHashMap.c
-
-src/CMakeFiles/testclient.dir/testHashMap.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/testclient.dir/testHashMap.c.i"
-	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/src && /usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/testHashMap.c > CMakeFiles/testclient.dir/testHashMap.c.i
-
-src/CMakeFiles/testclient.dir/testHashMap.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/testclient.dir/testHashMap.c.s"
-	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/src && /usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/testHashMap.c -o CMakeFiles/testclient.dir/testHashMap.c.s
-
-src/CMakeFiles/testclient.dir/testHashMap.c.o.requires:
-
-.PHONY : src/CMakeFiles/testclient.dir/testHashMap.c.o.requires
-
-src/CMakeFiles/testclient.dir/testHashMap.c.o.provides: src/CMakeFiles/testclient.dir/testHashMap.c.o.requires
-	$(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/testHashMap.c.o.provides.build
-.PHONY : src/CMakeFiles/testclient.dir/testHashMap.c.o.provides
-
-src/CMakeFiles/testclient.dir/testHashMap.c.o.provides.build: src/CMakeFiles/testclient.dir/testHashMap.c.o
-
-
 src/CMakeFiles/testclient.dir/nbhash.c.o: src/CMakeFiles/testclient.dir/flags.make
 src/CMakeFiles/testclient.dir/nbhash.c.o: ../src/nbhash.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object src/CMakeFiles/testclient.dir/nbhash.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object src/CMakeFiles/testclient.dir/nbhash.c.o"
 	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/src && /usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/testclient.dir/nbhash.c.o   -c /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/nbhash.c
 
 src/CMakeFiles/testclient.dir/nbhash.c.i: cmake_force
@@ -105,33 +81,9 @@ src/CMakeFiles/testclient.dir/nbhash.c.o.provides: src/CMakeFiles/testclient.dir
 src/CMakeFiles/testclient.dir/nbhash.c.o.provides.build: src/CMakeFiles/testclient.dir/nbhash.c.o
 
 
-src/CMakeFiles/testclient.dir/collection.c.o: src/CMakeFiles/testclient.dir/flags.make
-src/CMakeFiles/testclient.dir/collection.c.o: ../src/collection.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object src/CMakeFiles/testclient.dir/collection.c.o"
-	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/src && /usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/testclient.dir/collection.c.o   -c /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/collection.c
-
-src/CMakeFiles/testclient.dir/collection.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/testclient.dir/collection.c.i"
-	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/src && /usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/collection.c > CMakeFiles/testclient.dir/collection.c.i
-
-src/CMakeFiles/testclient.dir/collection.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/testclient.dir/collection.c.s"
-	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/src && /usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/collection.c -o CMakeFiles/testclient.dir/collection.c.s
-
-src/CMakeFiles/testclient.dir/collection.c.o.requires:
-
-.PHONY : src/CMakeFiles/testclient.dir/collection.c.o.requires
-
-src/CMakeFiles/testclient.dir/collection.c.o.provides: src/CMakeFiles/testclient.dir/collection.c.o.requires
-	$(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/collection.c.o.provides.build
-.PHONY : src/CMakeFiles/testclient.dir/collection.c.o.provides
-
-src/CMakeFiles/testclient.dir/collection.c.o.provides.build: src/CMakeFiles/testclient.dir/collection.c.o
-
-
 src/CMakeFiles/testclient.dir/nstring.c.o: src/CMakeFiles/testclient.dir/flags.make
 src/CMakeFiles/testclient.dir/nstring.c.o: ../src/nstring.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object src/CMakeFiles/testclient.dir/nstring.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object src/CMakeFiles/testclient.dir/nstring.c.o"
 	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/src && /usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/testclient.dir/nstring.c.o   -c /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/nstring.c
 
 src/CMakeFiles/testclient.dir/nstring.c.i: cmake_force
@@ -153,23 +105,45 @@ src/CMakeFiles/testclient.dir/nstring.c.o.provides: src/CMakeFiles/testclient.di
 src/CMakeFiles/testclient.dir/nstring.c.o.provides.build: src/CMakeFiles/testclient.dir/nstring.c.o
 
 
+src/CMakeFiles/testclient.dir/testHashMap.c.o: src/CMakeFiles/testclient.dir/flags.make
+src/CMakeFiles/testclient.dir/testHashMap.c.o: ../src/testHashMap.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object src/CMakeFiles/testclient.dir/testHashMap.c.o"
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/src && /usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/testclient.dir/testHashMap.c.o   -c /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/testHashMap.c
+
+src/CMakeFiles/testclient.dir/testHashMap.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/testclient.dir/testHashMap.c.i"
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/src && /usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/testHashMap.c > CMakeFiles/testclient.dir/testHashMap.c.i
+
+src/CMakeFiles/testclient.dir/testHashMap.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/testclient.dir/testHashMap.c.s"
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/src && /usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src/testHashMap.c -o CMakeFiles/testclient.dir/testHashMap.c.s
+
+src/CMakeFiles/testclient.dir/testHashMap.c.o.requires:
+
+.PHONY : src/CMakeFiles/testclient.dir/testHashMap.c.o.requires
+
+src/CMakeFiles/testclient.dir/testHashMap.c.o.provides: src/CMakeFiles/testclient.dir/testHashMap.c.o.requires
+	$(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/testHashMap.c.o.provides.build
+.PHONY : src/CMakeFiles/testclient.dir/testHashMap.c.o.provides
+
+src/CMakeFiles/testclient.dir/testHashMap.c.o.provides.build: src/CMakeFiles/testclient.dir/testHashMap.c.o
+
+
 # Object files for target testclient
 testclient_OBJECTS = \
-"CMakeFiles/testclient.dir/testHashMap.c.o" \
 "CMakeFiles/testclient.dir/nbhash.c.o" \
-"CMakeFiles/testclient.dir/collection.c.o" \
-"CMakeFiles/testclient.dir/nstring.c.o"
+"CMakeFiles/testclient.dir/nstring.c.o" \
+"CMakeFiles/testclient.dir/testHashMap.c.o"
 
 # External object files for target testclient
 testclient_EXTERNAL_OBJECTS =
 
-bin/testclient: src/CMakeFiles/testclient.dir/testHashMap.c.o
 bin/testclient: src/CMakeFiles/testclient.dir/nbhash.c.o
-bin/testclient: src/CMakeFiles/testclient.dir/collection.c.o
 bin/testclient: src/CMakeFiles/testclient.dir/nstring.c.o
+bin/testclient: src/CMakeFiles/testclient.dir/testHashMap.c.o
 bin/testclient: src/CMakeFiles/testclient.dir/build.make
 bin/testclient: src/CMakeFiles/testclient.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking C executable ../bin/testclient"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable ../bin/testclient"
 	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/testclient.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -177,10 +151,9 @@ src/CMakeFiles/testclient.dir/build: bin/testclient
 
 .PHONY : src/CMakeFiles/testclient.dir/build
 
-src/CMakeFiles/testclient.dir/requires: src/CMakeFiles/testclient.dir/testHashMap.c.o.requires
 src/CMakeFiles/testclient.dir/requires: src/CMakeFiles/testclient.dir/nbhash.c.o.requires
-src/CMakeFiles/testclient.dir/requires: src/CMakeFiles/testclient.dir/collection.c.o.requires
 src/CMakeFiles/testclient.dir/requires: src/CMakeFiles/testclient.dir/nstring.c.o.requires
+src/CMakeFiles/testclient.dir/requires: src/CMakeFiles/testclient.dir/testHashMap.c.o.requires
 
 .PHONY : src/CMakeFiles/testclient.dir/requires
 

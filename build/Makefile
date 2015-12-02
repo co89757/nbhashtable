@@ -123,6 +123,19 @@ testclient/fast:
 	$(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/build
 .PHONY : testclient/fast
 
+#=============================================================================
+# Target rules for targets named testlockht
+
+# Build rule for target.
+testlockht: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 testlockht
+.PHONY : testlockht
+
+# fast build rule for target.
+testlockht/fast:
+	$(MAKE) -f src/CMakeFiles/testlockht.dir/build.make src/CMakeFiles/testlockht.dir/build
+.PHONY : testlockht/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -131,6 +144,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... testlockht"
 	@echo "... testclient"
 .PHONY : help
 

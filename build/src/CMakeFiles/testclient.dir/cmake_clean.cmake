@@ -1,8 +1,7 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/testclient.dir/testHashMap.c.o"
   "CMakeFiles/testclient.dir/nbhash.c.o"
-  "CMakeFiles/testclient.dir/collection.c.o"
   "CMakeFiles/testclient.dir/nstring.c.o"
+  "CMakeFiles/testclient.dir/testHashMap.c.o"
   "../bin/testclient.pdb"
   "../bin/testclient"
 )
