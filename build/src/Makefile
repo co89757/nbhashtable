@@ -111,79 +111,127 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-src/CMakeFiles/test.dir/rule:
-	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/test.dir/rule
-.PHONY : src/CMakeFiles/test.dir/rule
+src/CMakeFiles/testclient.dir/rule:
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/testclient.dir/rule
+.PHONY : src/CMakeFiles/testclient.dir/rule
 
 # Convenience name for target.
-test: src/CMakeFiles/test.dir/rule
+testclient: src/CMakeFiles/testclient.dir/rule
 
-.PHONY : test
+.PHONY : testclient
 
 # fast build rule for target.
-test/fast:
-	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/test.dir/build.make src/CMakeFiles/test.dir/build
-.PHONY : test/fast
+testclient/fast:
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/build
+.PHONY : testclient/fast
 
-# target to build an object file
-collection.o:
-	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/test.dir/build.make src/CMakeFiles/test.dir/collection.o
+collection.o: collection.c.o
+
 .PHONY : collection.o
 
-# target to preprocess a source file
-collection.i:
-	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/test.dir/build.make src/CMakeFiles/test.dir/collection.i
+# target to build an object file
+collection.c.o:
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/collection.c.o
+.PHONY : collection.c.o
+
+collection.i: collection.c.i
+
 .PHONY : collection.i
 
-# target to generate assembly for a file
-collection.s:
-	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/test.dir/build.make src/CMakeFiles/test.dir/collection.s
+# target to preprocess a source file
+collection.c.i:
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/collection.c.i
+.PHONY : collection.c.i
+
+collection.s: collection.c.s
+
 .PHONY : collection.s
 
-# target to build an object file
-nbhash.o:
-	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/test.dir/build.make src/CMakeFiles/test.dir/nbhash.o
+# target to generate assembly for a file
+collection.c.s:
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/collection.c.s
+.PHONY : collection.c.s
+
+nbhash.o: nbhash.c.o
+
 .PHONY : nbhash.o
 
-# target to preprocess a source file
-nbhash.i:
-	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/test.dir/build.make src/CMakeFiles/test.dir/nbhash.i
+# target to build an object file
+nbhash.c.o:
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/nbhash.c.o
+.PHONY : nbhash.c.o
+
+nbhash.i: nbhash.c.i
+
 .PHONY : nbhash.i
 
-# target to generate assembly for a file
-nbhash.s:
-	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/test.dir/build.make src/CMakeFiles/test.dir/nbhash.s
+# target to preprocess a source file
+nbhash.c.i:
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/nbhash.c.i
+.PHONY : nbhash.c.i
+
+nbhash.s: nbhash.c.s
+
 .PHONY : nbhash.s
 
-# target to build an object file
-nstring.o:
-	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/test.dir/build.make src/CMakeFiles/test.dir/nstring.o
+# target to generate assembly for a file
+nbhash.c.s:
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/nbhash.c.s
+.PHONY : nbhash.c.s
+
+nstring.o: nstring.c.o
+
 .PHONY : nstring.o
 
-# target to preprocess a source file
-nstring.i:
-	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/test.dir/build.make src/CMakeFiles/test.dir/nstring.i
+# target to build an object file
+nstring.c.o:
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/nstring.c.o
+.PHONY : nstring.c.o
+
+nstring.i: nstring.c.i
+
 .PHONY : nstring.i
 
-# target to generate assembly for a file
-nstring.s:
-	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/test.dir/build.make src/CMakeFiles/test.dir/nstring.s
+# target to preprocess a source file
+nstring.c.i:
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/nstring.c.i
+.PHONY : nstring.c.i
+
+nstring.s: nstring.c.s
+
 .PHONY : nstring.s
 
-# target to build an object file
-testHashMap.o:
-	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/test.dir/build.make src/CMakeFiles/test.dir/testHashMap.o
+# target to generate assembly for a file
+nstring.c.s:
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/nstring.c.s
+.PHONY : nstring.c.s
+
+testHashMap.o: testHashMap.c.o
+
 .PHONY : testHashMap.o
 
-# target to preprocess a source file
-testHashMap.i:
-	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/test.dir/build.make src/CMakeFiles/test.dir/testHashMap.i
+# target to build an object file
+testHashMap.c.o:
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/testHashMap.c.o
+.PHONY : testHashMap.c.o
+
+testHashMap.i: testHashMap.c.i
+
 .PHONY : testHashMap.i
 
-# target to generate assembly for a file
-testHashMap.s:
-	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/test.dir/build.make src/CMakeFiles/test.dir/testHashMap.s
+# target to preprocess a source file
+testHashMap.c.i:
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/testHashMap.c.i
+.PHONY : testHashMap.c.i
+
+testHashMap.s: testHashMap.c.s
+
 .PHONY : testHashMap.s
+
+# target to generate assembly for a file
+testHashMap.c.s:
+	cd /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build && $(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/testHashMap.c.s
+.PHONY : testHashMap.c.s
 
 # Help Target
 help:
@@ -193,7 +241,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... test"
+	@echo "... testclient"
 	@echo "... collection.o"
 	@echo "... collection.i"
 	@echo "... collection.s"

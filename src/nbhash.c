@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
+#include <datatype.h>
 #include "def.h"
 #include "nbhash.h"
 
@@ -112,8 +113,15 @@ size_t getSlots(Hashtable_t* ht)
 }
 
 static inline
-int isKeyEqual(Key_t k, Key_t key){
-    return k == key ? TRUE:FALSE;
+int isKeyEqual(Hashtable_t *ht, Key_t k, Key_t key, int idx, uint32_t fullhash) {
+    if(ht->key_type==NULL) {
+        return k == key ;
+    }
+    //else key type is not NULL, use compare function
+    return key == k ||
+            ((ht->hashes[idx]==fullhash || ht->hashes[idx]==0)&&
+                    ht->key_type->compare(GET_PTR(k),GET_PTR(key))==0
+                       );
 }
 
 /**
@@ -169,7 +177,7 @@ Val_t ht_putIfMatch(Hashtable_t* ht, Key_t key, Val_t putVal, Val_t expVal, int 
         //if key already exists
         //compare key
        
-        if(isKeyEqual(*pK, key))
+        if(isKeyEqual(ht, *pK, key, idx, fullhash))
             break; //got the key!
 
         //else key not equal, we must reprobe and check reprobe limit
@@ -237,7 +245,7 @@ Val_t ht_getImpl(Hashtable_t* ht, Key_t key, uint32_t fullhash, int* error)
             return NIL;
         }
         //we have a key match
-        if(isKeyEqual(*pK, key)){
+        if(isKeyEqual(ht, *pK, key, idx, fullhash)){
             return (*pV == TOMBSTONE)? NIL: (*pV);
         }
         //else, test reprobe_limit condition and reprobe

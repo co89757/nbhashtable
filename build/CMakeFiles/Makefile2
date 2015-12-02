@@ -63,12 +63,12 @@ CMAKE_BINARY_DIR = /home/colin/Documents/Courses/multicore-522/Project/NBHashTab
 # Directory level rules for directory src
 
 # Convenience name for "all" pass in the directory.
-src/all: src/CMakeFiles/test.dir/all
+src/all: src/CMakeFiles/testclient.dir/all
 
 .PHONY : src/all
 
 # Convenience name for "clean" pass in the directory.
-src/clean: src/CMakeFiles/test.dir/clean
+src/clean: src/CMakeFiles/testclient.dir/clean
 
 .PHONY : src/clean
 
@@ -78,39 +78,39 @@ src/preinstall:
 .PHONY : src/preinstall
 
 #=============================================================================
-# Target rules for target src/CMakeFiles/test.dir
+# Target rules for target src/CMakeFiles/testclient.dir
 
 # All Build rule for target.
-src/CMakeFiles/test.dir/all:
-	$(MAKE) -f src/CMakeFiles/test.dir/build.make src/CMakeFiles/test.dir/depend
-	$(MAKE) -f src/CMakeFiles/test.dir/build.make src/CMakeFiles/test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target test"
-.PHONY : src/CMakeFiles/test.dir/all
+src/CMakeFiles/testclient.dir/all:
+	$(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/depend
+	$(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target testclient"
+.PHONY : src/CMakeFiles/testclient.dir/all
 
 # Include target in all.
-all: src/CMakeFiles/test.dir/all
+all: src/CMakeFiles/testclient.dir/all
 
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-src/CMakeFiles/test.dir/rule: cmake_check_build_system
+src/CMakeFiles/testclient.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/CMakeFiles 5
-	$(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/test.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/testclient.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/CMakeFiles 0
-.PHONY : src/CMakeFiles/test.dir/rule
+.PHONY : src/CMakeFiles/testclient.dir/rule
 
 # Convenience name for target.
-test: src/CMakeFiles/test.dir/rule
+testclient: src/CMakeFiles/testclient.dir/rule
 
-.PHONY : test
-
-# clean rule for target.
-src/CMakeFiles/test.dir/clean:
-	$(MAKE) -f src/CMakeFiles/test.dir/build.make src/CMakeFiles/test.dir/clean
-.PHONY : src/CMakeFiles/test.dir/clean
+.PHONY : testclient
 
 # clean rule for target.
-clean: src/CMakeFiles/test.dir/clean
+src/CMakeFiles/testclient.dir/clean:
+	$(MAKE) -f src/CMakeFiles/testclient.dir/build.make src/CMakeFiles/testclient.dir/clean
+.PHONY : src/CMakeFiles/testclient.dir/clean
+
+# clean rule for target.
+clean: src/CMakeFiles/testclient.dir/clean
 
 .PHONY : clean
 

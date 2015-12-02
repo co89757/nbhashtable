@@ -1,5 +1,7 @@
+#include <stdlib.h>
+#include <string.h>
 #include "nstring.h"
-#include "datatype.h"
+
 
 const Type_t TYPE_NSTRING = { 
 	(compare_fun_t) ns_compare, 
@@ -13,6 +15,15 @@ nstring_t* ns_new(uint32_t len)
 	return ns;
 }
 
+nstring_t* ns_init(const char* str)
+{
+	int len = strlen(str) ;
+    int size = len + 1;
+	nstring_t* pString =  ns_new(size);
+	strncpy(pString->data,str,size);
+	return pString;
+
+}
 
 int ns_compare(const nstring_t* ns1, const nstring_t* ns2)
 {
