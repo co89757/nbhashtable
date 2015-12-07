@@ -6,6 +6,9 @@
 #define NBHASHTABLE_HASHFUNC_H
 
 #include <stdint.h>
+
+typedef uint32_t (*hashCode_t)(uint64_t key);
+
 /**
  * Murmur hash function
  */
@@ -51,7 +54,8 @@ inline uint32_t murmur32_8b (uint64_t key)
 
 
 /** Hash function for string type */
-static inline uint32_t murmur32 (const char *key, int len)
+static
+ inline uint32_t murmur32 (const char *key, int len)
 {
     // 'm' and 'r' are mixing constants generated offline.
     // They're not really 'magic', they just happen to work well.

@@ -1,6 +1,8 @@
 #ifndef _DEF_H_
 #define _DEF_H_ 
 
+#include <stdio.h>
+#include <assert.h>
 #define FALSE 0
 #define TRUE 1 
 
@@ -29,6 +31,15 @@
 #define ERROR_NULLKEY (-5)
 
 
+/**utils*/
+#define FOPEN(fp, fname, mode) do{ FILE* (fp) = fopen(fname,mode); \
+		assert((fp)); \
+  }while(0)
+
+
+#define FWRITE(fp,fmt,...) fprintf((fp), fmt, ##__VA_ARGS__ )
+
+#define FCLOSE(fp) fclose((fp))
 
 #ifdef DEBUG
 

@@ -29,7 +29,7 @@ typedef struct
 } Entry_t;
 
  
-typedef uint32_t (*hashCode_t)(uint64_t key);
+
 
 
 struct Hashtable{

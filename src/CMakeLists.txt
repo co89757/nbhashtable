@@ -2,10 +2,13 @@ AUX_SOURCE_DIRECTORY(. ALL_SRC)
 
 SET(NBHT_SRC nbhash.c nstring.c testHashMap.c)
 SET(LOCKHT_SRC  testLockHt.c lockht.c nstring.c )
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include)
+SET(PROF_SRC perfprof.c lockht.c nbhash.c nstring.c)
 
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include)
+#ADD_DEFINITIONS("-DDEBUG")
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
-ADD_EXECUTABLE(testclient ${NBHT_SRC})
-add_executable(testlockht ${LOCKHT_SRC})
+ADD_EXECUTABLE(nbhttest ${NBHT_SRC})
+ADD_EXECUTABLE(lockhttest ${LOCKHT_SRC})
+ADD_EXECUTABLE(perfprof ${PROF_SRC})

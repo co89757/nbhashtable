@@ -44,9 +44,20 @@ typedef struct LockHt_Hashtable{
 LockHt_Hashtable_t* LockHt_newHashtable(size_t LogN, Type_t* Ktype);
 void LockHt_freeHashtable(LockHt_Hashtable_t* ht);
 
-void LockHt_put(LockHt_Hashtable_t* ht, LockHt_Key_t k, LockHt_Val_t v);
+/**Fine-grain lock
+ * put/update value and return old value (NIL means the key-slot is not previously taken)
+ */
+LockHt_Val_t LockHt_put(LockHt_Hashtable_t* ht, LockHt_Key_t k, LockHt_Val_t v);
 
+//course-grain lock
+LockHt_Val_t LockHt_put2(LockHt_Hashtable_t* ht, LockHt_Key_t k, LockHt_Val_t v);
+
+//fine-grain lock
 LockHt_Val_t LockHt_get(LockHt_Hashtable_t* ht, LockHt_Key_t k);
+
+//course-grain lock
+LockHt_Val_t LockHt_get2(LockHt_Hashtable_t* ht, LockHt_Key_t k);
+
 
 void LockHt_remove(LockHt_Hashtable_t* ht, LockHt_Key_t k);
 

@@ -11,10 +11,10 @@
 
 #define NUM_THREADS 512
 #define N 10
-#define M 100
+#define M 30000
 #define VINIT (9999)
 #define KEY 1
-#define TESTRUNS 15
+#define TESTRUNS 5
 
 static inline
 size_t _sum(int lo, int hi) {
@@ -44,7 +44,7 @@ int testValueConservation() {
 
     /** ----------------Test Setup ----------------- */
     int bPass = FALSE;
-    Hashtable_t *ht = ht_newHashTable(10);
+    Hashtable_t *ht = ht_newHashTable(N);
 
     size_t refSum = _sum(1, NUM_THREADS) + VINIT;
     size_t atomicSum = 0;
@@ -85,7 +85,7 @@ int testValueConservation() {
 
 
 
-
+double startt = omp_get_wtime();
     /** start parallel section */
 #pragma omp parallel num_threads(NUM_THREADS)
     {
@@ -101,9 +101,13 @@ int testValueConservation() {
         }
 
         ATOMIC_ADD(pSum, oldVal);
-        // Vector_push(vReadBacks, oldVal);
-        fprintf(fp, "LAST VALUE: %u TID:%d\n", oldVal, tid);
+        //fprintf(fp, "LAST VALUE: %u TID:%d\n", oldVal, tid);
     }
+
+    double endt = omp_get_wtime();
+    printf("Time-taken: %.16g [ms]\n ", 1000.0* (endt-startt) );
+
+
     /** read the final value in the slot */
     Val_t finalVal = ht_get(ht, KEY, &e);
     ATOMIC_ADD(pSum, finalVal);
