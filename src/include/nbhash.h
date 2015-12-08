@@ -67,6 +67,12 @@ void ht_freeHashTable(Hashtable_t* ht);
 Val_t ht_get(Hashtable_t* self, Key_t key, int * error);
 /** put key-value pair ,return old value */
 Val_t ht_put(Hashtable_t* self, Key_t key, Val_t value, int* error);
+
+/** UNSAFE WRAPPERS FOR GET/PUT METHODS, DON'T CARE ERROR STATUS */
+Val_t ht_get_unsafe(Hashtable_t* ht, Key_t key) ;
+Val_t ht_put_unsafe(Hashtable_t* ht, Key_t key, Val_t v);
+
+
 /** remove key-value pair, return old value */
 Val_t ht_remove(Hashtable_t* self, Key_t key, int* error);
 

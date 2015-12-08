@@ -303,6 +303,22 @@ Val_t ht_remove(Hashtable_t* self, Key_t key, int* error)
 }
 
 
+
+/** UNSAFE WRAPPERS FOR GET/PUT METHODS, DON'T CARE ERROR STATUS */
+Val_t ht_get_unsafe(Hashtable_t* ht, Key_t key)
+{
+    int e = NO_ERROR;
+    return ht_get(ht,key,&e);
+}
+
+Val_t ht_put_unsafe(Hashtable_t* ht, Key_t key, Val_t value)
+{
+    int e = NO_ERROR;
+    return ht_put(ht,key,value,&e);
+}
+/******------- END OF WRAPPER ----------------*/
+
+
 void ht_print(Hashtable_t* self)
 {
     if(!self){

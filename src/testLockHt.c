@@ -66,11 +66,7 @@ double startt = omp_get_wtime();
         LockHt_Val_t  oldVal = tid;
         int i = 0;
         for (; i < M; i++) {
-//#pragma omp critical
-//            {
-                oldVal = LockHt_put(ht, KEY, oldVal);
-//            }
-
+                oldVal = LockHt_put2(ht, KEY, oldVal);
         }
 
         ATOMIC_ADD(&actualSum, oldVal);

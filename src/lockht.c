@@ -6,7 +6,7 @@
 #include "lockht.h"
 #include "hashfunc.h"
 
-#define ACQURE_LOCK(plk) do{ omp_set_lock((plk)); LOG("acquired lock!");}while(0)
+#define ACQUIRE_LOCK(plk) do{ omp_set_lock((plk)); LOG("acquired lock!");}while(0)
 #define RELEASE_LOCK(plk) do{ omp_unset_lock((plk));LOG("released lock!"); }while(0)
 
 
@@ -93,7 +93,7 @@ LockHt_Val_t LockHt_put(LockHt_Hashtable_t *ht, LockHt_Key_t k, LockHt_Val_t v) 
     //acquire lock of the entry-chain head
 //    omp_set_lock(&pEntLock);
 //    LOG("get the lock!");
-    ACQURE_LOCK(pEntLock);
+    ACQUIRE_LOCK(pEntLock);
     if (ht->entries[idx] == NULL) {
         ht->entries[idx] = LockHt_newEntry(k, v, NULL);
         //release lock
@@ -139,15 +139,18 @@ LockHt_Val_t LockHt_put(LockHt_Hashtable_t *ht, LockHt_Key_t k, LockHt_Val_t v) 
 
 }
 
-//thread-unsafe version
+//use course lock 
 LockHt_Val_t LockHt_put2(LockHt_Hashtable_t *ht, LockHt_Key_t k, LockHt_Val_t v) {
     uint32_t fullhash = getHash(ht->key_type, k);
     size_t idx = fullhash & (ht->num_entries - 1);
 
+    omp_lock_t* pLock = & ht->locks[0];
+
+    ACQUIRE_LOCK(pLock);
 
     if (ht->entries[idx] == NULL) {
         ht->entries[idx] = LockHt_newEntry(k, v, NULL);
-
+        RELEASE_LOCK(pLock);
         return LOCKHT_NIL;
     }
 
@@ -160,7 +163,7 @@ LockHt_Val_t LockHt_put2(LockHt_Hashtable_t *ht, LockHt_Key_t k, LockHt_Val_t v)
         if (keyEqual(ht->key_type, curEnt->key, k)) {
             oldValue = curEnt->val;
             curEnt->val = v;
-
+            RELEASE_LOCK(pLock);
             return oldValue;
         }
         //else go next
@@ -180,7 +183,7 @@ LockHt_Val_t LockHt_put2(LockHt_Hashtable_t *ht, LockHt_Key_t k, LockHt_Val_t v)
 
 
     //omp_unset_lock(&pEntLock);
-
+    RELEASE_LOCK(pLock);
     return oldValue;
 
 }
@@ -216,7 +219,7 @@ LockHt_Val_t LockHt_get(LockHt_Hashtable_t *ht, LockHt_Key_t k) {
 
 }
 
-
+//use course lock 
 LockHt_Val_t LockHt_get2(LockHt_Hashtable_t *ht, LockHt_Key_t k)
 {
     uint32_t fullhash = getHash(ht->key_type, k);
@@ -224,6 +227,9 @@ LockHt_Val_t LockHt_get2(LockHt_Hashtable_t *ht, LockHt_Key_t k)
     size_t idx = fullhash & (nEnts - 1);
     //returned value, default to NIL
     LockHt_Val_t vRet = LOCKHT_NIL;
+
+    omp_lock_t* pLock = & ht->locks[0];
+    ACQUIRE_LOCK(pLock);
    do {
             if (ht->entries[idx] == NULL)
                 break;
@@ -237,7 +243,7 @@ LockHt_Val_t LockHt_get2(LockHt_Hashtable_t *ht, LockHt_Key_t k)
             vRet = curEnt->val;
         } while (0);
         //release lock
-
+    RELEASE_LOCK(pLock);
     return vRet;
 }
 
