@@ -1,15 +1,16 @@
 #!/bin/bash 
 #----- VARIABLE DEFINITIONS --------
-PATH_TO_BINARY=/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/bin
-PATH_TO_BUILD=/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/build/
-PATH_TO_SRC=/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/src 
-PATH_TO_SCRIPT=/home/colin/Documents/Courses/multicore-522/Project/NBHashTable/scripts
+PROJ_ROOT="${HOME}/Documents/Courses/multicore-522/Project/NBHashTable"
+PATH_TO_BINARY=${PROJ_ROOT}/build/bin
+PATH_TO_BUILD=${PROJ_ROOT}/build/
+PATH_TO_SRC=${PROJ_ROOT}/src 
+PATH_TO_SCRIPT=${PROJ_ROOT}/scripts
 BINARY_NAME=perfprof
 SRC_FILE=perfprof.c
 DATAFILE_NAME=perf.csv 
 MAX_NUM_THREADS=256
 TEST_ITERATIONS=1
-
+### This function is never used any more
 alter_nthreads ()
 {
     if [[ $# -ne 2 ]]; then
@@ -37,29 +38,39 @@ testloop()
     echo "Implementation, Workload, Number_of_threads, Time[ms]" > ${PATH_TO_SCRIPT}/${DATAFILE_NAME}
 
     for (( nthreads = 2; nthreads <= ${MAX_NUM_THREADS}; nthreads *= 2 )); do
-        alter_nthreads "${PATH_TO_SRC}/${SRC_FILE}" ${nthreads} 
-        make 
-        if [[ $? -ne 0 ]]; then
-            echo "[ERROR]: Build error occurs when doing make"
-            exit 1
-        fi
-        for (( j = 0; j < $1; j++ )); do
-            ${PATH_TO_BINARY}/${BINARY_NAME} >> ${PATH_TO_SCRIPT}/${DATAFILE_NAME}
+        for (( testid = 0; testid < 3; testid++ )); do
+            ${PATH_TO_BINARY}/${BINARY_NAME} $nthreads $testid >> ${PATH_TO_SCRIPT}/${DATAFILE_NAME}
         done
+        # make 
+        # if [[ $? -ne 0 ]]; then
+        #     echo "[ERROR]: Build error occurs when doing make"
+        #     exit 1
+        # fi
+        # for (( j = 0; j < $1; j++ )); do
+        #     ${PATH_TO_BINARY}/${BINARY_NAME} >> ${PATH_TO_SCRIPT}/${DATAFILE_NAME}
+        # done
     done
 
 }
 
 ## go to BUILD directory 
 cd ${PATH_TO_BUILD} 
-
-if (( $# != 1 )); then
-    echo " default number of test iterations is 1"
-    testloop 1 
-else
-    echo "you set the number of test iterations to $1"
-    testloop $1 
+make 
+if [[ $? -ne 0 ]]; then
+    echo "[ERROR]: Build error occurs when doing make"
+    exit 1
 fi
+
+
+testloop
+
+# if (( $# != 1 )); then
+#     echo " default number of test iterations is 1"
+#     testloop 
+# else
+#     echo "you set the number of test iterations to $1"
+#     testloop $1 
+# fi
 
 
 
