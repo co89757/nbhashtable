@@ -14,8 +14,8 @@
 // #define NUM_THREADS 256
 #define KEYSLOT 1
 #define INIT_VAL 9999
-#define TOTAL_ITERS (1<<25UL)
-#define SEED time(NULL)
+#define TOTAL_ITERS (1<<27UL)
+#define SEED 5
 //random number in [lo,hi)
 #define RAND(lo,hi) (rand()%((hi)-(lo)) + (lo) )
 
@@ -112,23 +112,19 @@ int* shuffledArray(int* A, int N)
 void writeOnlyTest(void* ht, int N, int upperBound, HT_IMPL_TYPE impl, size_t NUM_THREADS)
 {
     map_put_t put = PUT_METHODS[impl];
-    int* rdset = randomArray(N, upperBound);
-
-    put(ht,KEYSLOT,INIT_VAL);
+    int* keys = randomArray(N, upperBound);
+    int n_1 = N-1;
     double t0 = omp_get_wtime();
-    #pragma omp parallel num_threads(NUM_THREADS)
+    #pragma omp parallel for num_threads(NUM_THREADS)
+    for (int i = 0; i < TOTAL_ITERS; ++i)
     {
-        int tid = omp_get_thread_num();
-        Key_t oldVal = tid + 1;
-        for (int i = 0; i < TOTAL_ITERS/(NUM_THREADS); ++i) {
-            oldVal = put(ht,KEYSLOT, oldVal );
-        }
-
+          put(ht, keys[i&n_1], INIT_VAL); 
+        
     }
     double t1 = omp_get_wtime();
     //HT,BENCHMARK,NUM-THREADS,TIME
     printf("%s, %s, %zu, %.16g\n", HT_NAMES[impl],BENCHMARKS[0],NUM_THREADS, 1000*(t1-t0) );
-    FREE(rdset);
+    FREE(keys);
 }
 
 
@@ -146,13 +142,14 @@ void readOnlyTest(void* ht, int N, int upperBound, HT_IMPL_TYPE impl, size_t NUM
     }
 
     // start profile 
+    int n_1 = N-1 ;
     double t0 = omp_get_wtime();
     #pragma omp parallel for num_threads(NUM_THREADS)
     for (int i = 0; i < TOTAL_ITERS; ++i)
     {
         /*for (int  j = 0; j < TOTAL_ITERS; ++j)
         {*/
-           get(ht, keys[i%N]); 
+           get(ht, keys[i&n_1]); 
         // }
     }
 
@@ -225,9 +222,9 @@ int main(int argc, char** argv)
     //
     //////////SETUP////////////////
     int logN = LOG_NUM_KEYS;
-    Hashtable_t* nbht = ht_newHashTable(logN+1);
-    LockHt_Hashtable_t* lockht1 = LockHt_newHashtable(logN+1,NULL );
-    LockHt_Hashtable_t* lockht2 = LockHt_newHashtable(logN+1,NULL);
+    Hashtable_t* nbht = ht_newHashTable(logN+3);
+    LockHt_Hashtable_t* lockht1 = LockHt_newHashtable(logN+3,NULL );
+    LockHt_Hashtable_t* lockht2 = LockHt_newHashtable(logN+3,NULL);
 
     int N = 1 << LOG_NUM_KEYS;
     HT_IMPL_TYPE ht_types[] = {NON_BLOCKING,COURSE_LOCK,FINE_LOCK};

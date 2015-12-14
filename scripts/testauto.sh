@@ -1,5 +1,6 @@
 #!/bin/bash 
 #----- VARIABLE DEFINITIONS --------
+## set project root manually here
 PROJ_ROOT="${HOME}/Documents/Courses/multicore-522/Project/NBHashTable"
 PATH_TO_BINARY=${PROJ_ROOT}/build/bin
 PATH_TO_BUILD=${PROJ_ROOT}/build/
@@ -41,14 +42,6 @@ testloop()
         for (( testid = 0; testid < 3; testid++ )); do
             ${PATH_TO_BINARY}/${BINARY_NAME} $nthreads $testid >> ${PATH_TO_SCRIPT}/${DATAFILE_NAME}
         done
-        # make 
-        # if [[ $? -ne 0 ]]; then
-        #     echo "[ERROR]: Build error occurs when doing make"
-        #     exit 1
-        # fi
-        # for (( j = 0; j < $1; j++ )); do
-        #     ${PATH_TO_BINARY}/${BINARY_NAME} >> ${PATH_TO_SCRIPT}/${DATAFILE_NAME}
-        # done
     done
 
 }
@@ -63,14 +56,3 @@ fi
 
 
 testloop
-
-# if (( $# != 1 )); then
-#     echo " default number of test iterations is 1"
-#     testloop 
-# else
-#     echo "you set the number of test iterations to $1"
-#     testloop $1 
-# fi
-
-
-

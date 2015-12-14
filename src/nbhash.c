@@ -81,14 +81,11 @@ size_t getSlots(Hashtable_t* ht)
 
 static inline
 int isKeyEqual(Hashtable_t *ht, Key_t k, Key_t key, int idx, uint32_t fullhash) {
-    if(ht->key_type==NULL) {
-        return k == key ;
-    }
     //else key type is not NULL, use compare function
-    return key == k ||
-            ((ht->hashes[idx]==fullhash || ht->hashes[idx]==0)&&
-                    ht->key_type->compare(GET_PTR(k),GET_PTR(key))==0
-                       );
+    if (key == k) return TRUE;
+    if (ht->key_type == NULL) return FALSE;
+    return (ht->hashes[idx]==fullhash || ht->hashes[idx]==0) && 
+           ht->key_type->compare(GET_PTR(k),GET_PTR(key))==0;
 }
 
 /**
@@ -107,6 +104,7 @@ int reprobe_limit(size_t len)
 static
 Val_t ht_putIfMatch(Hashtable_t* ht, Key_t key, Val_t putVal, Val_t expVal, int * error)
 {
+
     assert(ht!=NULL);
     assert(key!=NIL);
     assert(error);
@@ -118,11 +116,12 @@ Val_t ht_putIfMatch(Hashtable_t* ht, Key_t key, Val_t putVal, Val_t expVal, int 
 
     volatile  Key_t * pK = NULL;
     volatile  Val_t * pV = NULL;
-    pK = getKeyPtr(ht, idx);
+    //pK = getKeyPtr(ht, idx);
     pV = getValPtr(ht,idx);
     //start loop to claim key slot
     while (TRUE) {
         //if slot is free?
+        pK = getKeyPtr(ht, idx);
         if(*pK == NIL)
         {
             //quick cut-out
@@ -134,7 +133,7 @@ Val_t ht_putIfMatch(Hashtable_t* ht, Key_t key, Val_t putVal, Val_t expVal, int 
             {
                 //occupied a new key, increment slots
                 incSlots(ht);
-                LOG("claimed key-slot:%u",key);
+                LOG("claimed key-slot:%zu after %zu reprobes ",key, reprobes_cnt);
                 ht->hashes[idx] = fullhash; //cache fullhash
                 break;
             }
@@ -143,15 +142,16 @@ Val_t ht_putIfMatch(Hashtable_t* ht, Key_t key, Val_t putVal, Val_t expVal, int 
 
         //if key already exists
         //compare key
-       
-        if(isKeyEqual(ht, *pK, key, idx, fullhash))
-            break; //got the key!
+        if(isKeyEqual(ht, *pK, key, idx, fullhash)){
+          LOG("Key Hit after %zu reprobes", reprobes_cnt);
+          break; //got the key!//got the key!
+        }
 
         //else key not equal, we must reprobe and check reprobe limit
-        if(++reprobes_cnt >= reprobe_limit(len) || getSlots(ht) > (size_t)(0.8 * ht->maxsize )  )
+        if(++reprobes_cnt >= reprobe_limit(len) )
         {
             *error = ERROR_FULLTABLE;
-            ERR("reprobe limit is reached when putting (K,V)=(%u,%u)", key,putVal );
+            ERR("reprobe limit is reached when putting, reprobes: %zu ", reprobes_cnt );
             return NIL;
         }
         //reprobe
@@ -176,7 +176,7 @@ Val_t ht_putIfMatch(Hashtable_t* ht, Key_t key, Val_t putVal, Val_t expVal, int 
             *error = ERROR_PUTFAIL;
             ERR("put value failed. expVal=%d , V=%d" , expVal,*pV);
             return V;   //do not update.
-        }
+        } 
 
 
         /** CAS-val, on CAS failure, V will be automatically updated to current value */
@@ -207,6 +207,7 @@ Val_t ht_getImpl(Hashtable_t* ht, Key_t key, uint32_t fullhash, int* error)
         volatile  Val_t * pV = getValPtr(ht,idx);
         //key not exist, a miss
         if(*pK == NIL){
+
             *error = ERROR_NULLKEY;
             ERR("Error in get_impl(), K is NULL");
             return NIL;
